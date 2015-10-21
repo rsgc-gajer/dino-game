@@ -1,8 +1,8 @@
 // global variables (can be use everywhere below)
-float x1; // tracks horizontal position of first cactus 
+Cactus c1;
+Cactus c2;
+
 float x2; //  tracks horizontal position of second cactus
-float a1; // tracks acceleration of the first cactus 
-float s1; // tracks the speed of the first cactus
 float a2;// tracks acceleration of the second cactus
 float s2; // tracks the speed of the second cactus
 
@@ -26,17 +26,18 @@ int highscore;
 void setup() {
   // draw the canvas 
   size(800, 200);
+
+  c1 = new Cactus(900, -1, -0.5);
+  c2 = new Cactus(1000, -1, -0.5);
+
   dino=loadImage("dino.png");
   // set initial position of the cactus
-  x1 = 900; // position it off-screen on the right
   x2 = 1000;
 
   // initial horizontal acceleration for cactus
-  a1 = -0.1;
   a2 = -0.1;
 
   // initial horizontal speed for cactus
-  s1 = -1;
   s2 = -1;
 
   // set dino initial vertical position
@@ -58,28 +59,20 @@ void draw() {
   // background clears each time the program loops
   background(255);
 
-  // draw a circle at bottom right corner of the screen
-  //       x    y   w   h
-  ellipse(x1, 175, 35, 35);
-  fill(0);
-  ellipse(x2, 175, 35, 35);
-  fill(255, 0, 0);
+  c1.update(gravity);
+  c2.update(gravity);
 
-  // change the speed
-  s1 = s1 + a1;
-  s2 = s2 + a2;
+  //// draw a circle at bottom right corner of the screen
+  ////       x    y   w   h
+  //ellipse(x2, 175, 35, 35);
+  //fill(255, 0, 0);
 
-  // create the appearence of moving by changing the x position
-  x1= x1 + s1;
-  x2= x2 + s2;
+  //// change the speed
+  //s2 = s2 + a2;
 
-  // put the cactus back on right edge if it goes off left edge
-  if (x1 < -25) {
-    x1 = 900;
-    s1 = -1;
-    score++;
-    highscore = max(score, highscore);
-  }
+  //// create the appearence of moving by changing the x position
+  //x2= x2 + s2;
+
   if (x2 < -25) {
     x2 = 1000;
     s2 = -1;
@@ -113,9 +106,9 @@ void draw() {
   fill(0);
 
   // determine the distance between the objects
-  leg1 = dinoY - 175; // dino - cactus
-  leg2 = 50 - x1;
-  distance1 = sqrt( pow(leg1, 2) + pow(leg2, 2)   ); 
+  //leg1 = dinoY - 175; // dino - cactus
+  //leg2 = 50 - x1;
+  //distance1 = sqrt( pow(leg1, 2) + pow(leg2, 2)   ); 
 
   if (distance1 < (17.5 + 17.5) ) {
     textSize(80);
@@ -128,39 +121,39 @@ void draw() {
     textSize(12);
     text("highscore: " + highscore, 715, 20);
   }
-  
-  // determine the distande between the objects
-  leg3 = dinoY - 175; // dino - cactus
-  leg4 = 50 - x2;
-  distance2 = sqrt( pow(leg3, 2) + pow(leg4, 2)   ); 
-  
-  if (distance2 < (17.5 + 17.5) ) {
-    textSize(80);
-    noLoop();
-    background(255);
-    textAlign(LEFT);
-    textSize(60);
-    text("Game Over!", 225, 100);
-    text("Click to Restart", 175, 150);
-    textSize(12);
-    text("highscore: " + highscore, 715, 20);
-  }
+
+  //// determine the distande between the objects
+  //leg3 = dinoY - 175; // dino - cactus
+  //leg4 = 50 - x2;
+  //distance2 = sqrt( pow(leg3, 2) + pow(leg4, 2)   ); 
+
+  //if (distance2 < (17.5 + 17.5) ) {
+  //  textSize(80);
+  //  noLoop();
+  //  background(255);
+  //  textAlign(LEFT);
+  //  textSize(60);
+  //  text("Game Over!", 225, 100);
+  //  text("Click to Restart", 175, 150);
+  //  textSize(12);
+  //  text("highscore: " + highscore, 715, 20);
+  //}
 }
 void mouseClicked() {
   mouseClicked++;
   if (mouseClicked==1) {
     score= 0;
-    // set initial position of the cactus
-    x1 = 900; // position it off-screen on the right
-    x2 = 1000;
+    //// set initial position of the cactus
+    //x1 = 900; // position it off-screen on the right
+    //x2 = 1000;
 
-    // initial horizontal acceleration for cactus
-    a1 = -0.1;
-    a2 = -0.1;
+    //// initial horizontal acceleration for cactus
+    //a1 = -0.1;
+    //a2 = -0.1;
 
-    // initial horizontal speed for cactus
-    s1 = -1;
-    s2 = -1;
+    //// initial horizontal speed for cactus
+    //s1 = -1;
+    //s2 = -1;
 
     // set dino initial vertical position
     dinoY = 150;
@@ -173,34 +166,35 @@ void mouseClicked() {
     loop();
     //set gravity 
     gravity = 0.07;
-  } else if (mouseClicked>1);
-  score = 0; // reset the score
-  {
-    // set initial position of the cactus
-    x1 = 900; // position it off-screen on the right
-    x2 = 1000;
-
-    // initial horizontal acceleration for cactus
-    a1 = -0.1;
-    a2 = -0.1;
-
-    // initial horizontal speed for cactus
-    s1 = -1;
-    s2 = -1;
-
-    // set dino initial vertical position
-    dinoY = 150;
-
-    // set dino initial speed
-    dinoS = 0;
-
-    // set dino initial acceleration
-    dinoA = -0.5;
-
-    //set gravity 
-    gravity = 0.07;
-    loop();
+  } else if (mouseClicked>1) {
+    score = 0; // reset the score
   }
+  //{
+  //  // set initial position of the cactus
+  //  x1 = 900; // position it off-screen on the right
+  //  x2 = 1000;
+
+  //  // initial horizontal acceleration for cactus
+  //  a1 = -0.1;
+  //  a2 = -0.1;
+
+  //  // initial horizontal speed for cactus
+  //  s1 = -1;
+  //  s2 = -1;
+
+  //  // set dino initial vertical position
+  //  dinoY = 150;
+
+  //  // set dino initial speed
+  //  dinoS = 0;
+
+  //  // set dino initial acceleration
+  //  dinoA = -0.5;
+
+  //  //set gravity 
+  //  gravity = 0.07;
+  //  loop();
+  //}
 }
 // respond to keypress
 void keyPressed() {
