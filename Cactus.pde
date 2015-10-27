@@ -30,4 +30,10 @@ class Cactus {
       highscore = max(score, highscore);
     }
   }
+  // get x
+  // purpose: to return the x position of the cactus
+  float getX() {
+
+    return x1;
+  }
 }
