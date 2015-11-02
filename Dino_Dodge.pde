@@ -8,7 +8,7 @@ float a2;// tracks acceleration of the second cactus
 float s2; // tracks the speed of the second cactus
 
 float gravity; // gravity
-float distance1; // track the distance between dino and first cactus
+float distance; // track the distance between dino and first cactus
 float distance2; // track the distance between dino and second cactus
 int mouseClicked; // mouse click to restart game
 PImage dino; // pic of dino
@@ -53,6 +53,14 @@ void draw() {
   c1.update(gravity);
   c2.update(gravity);
   d1.update(gravity);
+  
+   // check whether the cactus is touching the dino
+  if (d1.isTouching(c1)) {
+    textSize(80);
+    text("HIT", 400, 100);
+    noLoop(); // stop the game
+  }
+}
 
   //// draw a circle at bottom right corner of the screen
   ////       x    y   w   h
@@ -65,33 +73,18 @@ void draw() {
   //// create the appearence of moving by changing the x position
   //x2= x2 + s2;
 
-  if (x2 < -25) {
-    x2 = 1000;
-    s2 = -1;
-    score++;
-    highscore = max(score, highscore);
-  }
+//  if (x2 < -25) {
+//    x2 = 1000;
+//    s2 = -1;
+//    score++;
+//    highscore = max(score, highscore);
+//  }
 
   // status updates
-  //textSize(12);
-  //text("dinoY is " + dinoY, 150, 25);
-  //text("dinoS is " + dinoS, 150, 50);
-  //text("dinoA is " + dinoA, 150, 75);
   //text("distance is " + distance1, 150, 100);
   //fill(0);
   //text("score: " + score, 735, 10);
 
-  //// move the dino
-  //dinoA = dinoA + gravity; // changes acceleration based on gravity
-  //dinoS = dinoS + dinoA; // change speed based on acceleration 
-  //dinoY = dinoY + dinoS; // change location based on speed
-
-  //// stop the dino if it hits the ground
-  //if (dinoY > 150) { // bottom of the screen (200) minus the radius 
-  //  dinoA = 0;
-  //  dinoS = 0;
-  //  dinoY = 150;
-  //}
 
   // determine the distance between the objects
   //leg1 = dinoY - 175; // dino - cactus
@@ -110,11 +103,6 @@ void draw() {
   //  text("highscore: " + highscore, 715, 20);
   //}
 
-  //// determine the distande between the objects
-  //leg3 = dinoY - 175; // dino - cactus
-  leg4 = 50 - c1.getX();
-  //distance2 = sqrt( pow(leg3, 2) + pow(leg4, 2)   ); 
-
   //if (distance2 < (17.5 + 17.5) ) {
   //  textSize(80);
   //  noLoop();
@@ -126,7 +114,6 @@ void draw() {
   //  textSize(12);
   //  text("highscore: " + highscore, 715, 20);
   //}
-}
 void mouseClicked() {
   mouseClicked++;
   if (mouseClicked==1) {
@@ -154,11 +141,11 @@ void mouseClicked() {
 
     loop();
     //set gravity 
-    gravity = 0.07;
-  } else if (mouseClicked>1) {
-    score = 0; // reset the score
-  }
-  //{
+    //gravity = 0.07;
+  } //else if (mouseClicked>1) {
+  //score = 0; // reset the score
+  //}
+  //  //{
   //  // set initial position of the cactus
   //  x1 = 900; // position it off-screen on the right
   //  x2 = 1000;
@@ -183,15 +170,12 @@ void mouseClicked() {
   //  //set gravity 
   //  gravity = 0.07;
   //  loop();
-  //}
 }
 // respond to keypress
-//void keyPressed() {
-//  if (keyPressed) {
-//    if (dinoY==150) {
-//      if (key == ' ' || key == ' ') { // only allows space key to work when jumping
-//        dinoA = -1;
-//      }
-//    }
-//  }
-//}
+void keyPressed() {
+  if (d1.getY() == 150) {
+    if (key == ' ' || key == ' ') {
+      d1.setA(-1);
+    }
+  }
+}
